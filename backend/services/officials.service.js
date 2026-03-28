@@ -1,0 +1,128 @@
+const mongoose = require('mongoose');
+const Official = require('../models/official.model');
+const Contract = require('../models/contract.model');
+const { parsePagination, buildPaginationMeta } = require('../utils/pagination');
+
+const listOfficials = async (query) => {
+    const { page, limit, skip } = parsePagination(query);
+    const filter = {
+        ...(query.district ? { district: query.district } : {}),
+        ...(query.accountability_level
+            ? { accountability_level: query.accountability_level }
+            : {}),
+    };
+    const sortBy = query.sort_by || 'updated_at';
+    const sortOrder = query.sort_order === 'asc' ? 1 : -1;
+
+    const [items, total] = await Promise.all([
+        Official.find(filter)
+            .sort({ [sortBy]: sortOrder })
+            .skip(skip)
+            .limit(limit)
+            .lean(),
+        Official.countDocuments(filter),
+    ]);
+
+    return {
+        items,
+        pagination: buildPaginationMeta({ total, page, limit }),
+    };
+};
+
+const searchOfficials = async (q) =>
+    Official.find({ $text: { $search: q } })
+        .select('full_name designation district accountability_level stats')
+        .limit(10)
+        .lean();
+
+const getOfficialById = async (id) => {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return null;
+    }
+    return Official.findById(id).lean();
+};
+
+const getOfficialContracts = async (id, query) => {
+    const official = await getOfficialById(id);
+    if (!official) {
+        return null;
+    }
+
+    const { page, limit, skip } = parsePagination(query);
+    const filter = { official_id: official._id };
+    if (query.status) {
+        filter.computed_status = query.status;
+    }
+
+    const sortBy = query.sort_by || 'notification_date';
+    const sortOrder = query.sort_order === 'asc' ? 1 : -1;
+
+    const [items, total] = await Promise.all([
+        Contract.find(filter)
+            .sort({ [sortBy]: sortOrder })
+            .skip(skip)
+            .limit(limit)
+            .lean(),
+        Contract.countDocuments(filter),
+    ]);
+
+    return {
+        official,
+        items,
+        pagination: buildPaginationMeta({ total, page, limit }),
+    };
+};
+
+const getOfficialPatterns = async (id) => {
+    const official = await getOfficialById(id);
+    if (!official) {
+        return null;
+    }
+
+    const contracts = await Contract.find({ official_id: official._id })
+        .select('contract_value computed_status contract_start_date contract_end_date work_status red_flags')
+        .lean();
+
+    const total = contracts.length || 1;
+    const overdueContracts = contracts.filter((c) =>
+        ['overdue', 'ghost'].includes(c.computed_status)
+    );
+
+    const impossibleTimelineContracts = contracts.filter((c) => {
+        if (!c.contract_start_date || !c.contract_end_date) {
+            return false;
+        }
+        const days =
+            (new Date(c.contract_end_date).getTime() -
+                new Date(c.contract_start_date).getTime()) /
+            (24 * 60 * 60 * 1000);
+        return days <= 1;
+    });
+
+    const paymentGapContracts = contracts.filter(
+        (c) => (c.work_status?.payment_gap_pct || 0) > 20
+    );
+
+    const singleBidderCount = contracts.filter((c) =>
+        (c.red_flags || []).some((f) => f.flag_type === 'single_bidder')
+    ).length;
+
+    return {
+        overdue_rate_pct: (overdueContracts.length / total) * 100,
+        impossible_timeline_contracts: impossibleTimelineContracts,
+        payment_gap_contracts: paymentGapContracts,
+        single_bidder_contracts: singleBidderCount,
+        total_unverified_payments: paymentGapContracts.reduce(
+            (sum, c) => sum + (c.contract_value || 0),
+            0
+        ),
+    };
+};
+
+module.exports = {
+    listOfficials,
+    searchOfficials,
+    getOfficialById,
+    getOfficialContracts,
+    getOfficialPatterns,
+};
