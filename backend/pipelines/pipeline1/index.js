@@ -87,14 +87,24 @@ const runPipeline1 = async ({ stateName = 'Munshiganj', maxPages = null, size = 
         const totalPagesOnWebsite = firstPage.totalPages;
 
         // Correct total contracts calculation: go to last page and read last contract serial number
-        const lastPage =
-            totalPagesOnWebsite === 1
-                ? firstPage
-                : await requestContractsPage({
+        let lastPage = firstPage;
+        if (totalPagesOnWebsite > 1) {
+            try {
+                lastPage = await requestContractsPage({
                     stateName,
                     pageNo: totalPagesOnWebsite,
                     size,
                 });
+            } catch (error) {
+                errors.push(
+                    `[page:${totalPagesOnWebsite}] failed to fetch last page for counting: ${error.message}`
+                );
+                logger.warn('pipeline1_last_page_fetch_failed', {
+                    pageNo: totalPagesOnWebsite,
+                    message: error.message,
+                });
+            }
+        }
 
         const lastRowSerialNumber = Math.max(
             ...lastPage.rows
@@ -160,10 +170,20 @@ const runPipeline1 = async ({ stateName = 'Munshiganj', maxPages = null, size = 
         let existingContractsSeen = 0;
 
         for (const pageNo of pages) {
-            const pageResult =
-                pageNo === 1
-                    ? firstPage
-                    : await requestContractsPage({ stateName, pageNo, size });
+            let pageResult;
+            try {
+                pageResult =
+                    pageNo === 1
+                        ? firstPage
+                        : await requestContractsPage({ stateName, pageNo, size });
+            } catch (error) {
+                errors.push(`[page:${pageNo}] failed to fetch page: ${error.message}`);
+                logger.warn('pipeline1_page_fetch_failed', {
+                    pageNo,
+                    message: error.message,
+                });
+                continue;
+            }
 
             pagesScraped += 1;
             contractsScanned += pageResult.rows.length;
