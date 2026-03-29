@@ -1,6 +1,7 @@
 const Contractor = require('../models/contractor.model');
 const Official = require('../models/official.model');
 const Contract = require('../models/contract.model');
+const District = require('../models/district.model');
 
 const computeContractorRiskLevel = ({ totalContracts, overdueCount, totalRedFlags }) => {
     const safeTotal = totalContracts || 0;
@@ -290,19 +291,100 @@ const refreshOfficialStats = async ({ district = null } = {}) => {
 };
 
 const refreshEntityStats = async ({ district = null } = {}) => {
-    const [contractorResult, officialResult] = await Promise.all([
+    const [contractorResult, officialResult, districtResult] = await Promise.all([
         refreshContractorStats({ district }),
         refreshOfficialStats({ district }),
+        refreshDistrictStats({ district }),
     ]);
 
     return {
         contractorsUpdated: contractorResult.updatedCount,
         officialsUpdated: officialResult.updatedCount,
+        districtsUpdated: districtResult.updatedCount,
+    };
+};
+
+const refreshDistrictStats = async ({ district = null } = {}) => {
+    const match = {
+        district: { $exists: true, $ne: null },
+        ...(district ? { district } : {}),
+    };
+
+    const rows = await Contract.aggregate([
+        { $match: match },
+        {
+            $addFields: {
+                district_key: {
+                    $trim: {
+                        input: { $ifNull: ['$district', ''] },
+                    },
+                },
+            },
+        },
+        { $match: { district_key: { $ne: '' } } },
+        {
+            $group: {
+                _id: '$district_key',
+                total_contracts: { $sum: 1 },
+                total_value: { $sum: { $ifNull: ['$contract_value', 0] } },
+                completed_count: {
+                    $sum: {
+                        $cond: [{ $eq: ['$computed_status', 'completed'] }, 1, 0],
+                    },
+                },
+                overdue_count: {
+                    $sum: {
+                        $cond: [{ $in: ['$computed_status', ['overdue', 'ghost']] }, 1, 0],
+                    },
+                },
+                last_synced_at: { $max: '$last_synced_at' },
+            },
+        },
+    ]);
+
+    if (!rows.length) {
+        return { updatedCount: 0 };
+    }
+
+    const operations = rows.map((row) => {
+        const totalContracts = Number(row.total_contracts) || 0;
+        const completedCount = Number(row.completed_count) || 0;
+        const completionRatePct =
+            totalContracts > 0 ? (completedCount / totalContracts) * 100 : 0;
+
+        return {
+            updateOne: {
+                filter: { name: row._id },
+                update: {
+                    $set: {
+                        is_active: true,
+                        total_contracts: totalContracts,
+                        total_value: Number(row.total_value) || 0,
+                        overdue_count: Number(row.overdue_count) || 0,
+                        completion_rate_pct: completionRatePct,
+                        last_synced_at: row.last_synced_at || new Date(),
+                    },
+                    $setOnInsert: {
+                        name: row._id,
+                    },
+                },
+                upsert: true,
+            },
+        };
+    });
+
+    const result = await District.bulkWrite(operations, { ordered: false });
+    return {
+        updatedCount:
+            (result.modifiedCount || 0) +
+            (result.upsertedCount || 0) +
+            (result.matchedCount || 0),
     };
 };
 
 module.exports = {
     refreshContractorStats,
     refreshOfficialStats,
+    refreshDistrictStats,
     refreshEntityStats,
 };
