@@ -70,6 +70,7 @@ const postForm = async (url, payload) => {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 Origin: 'https://www.eprocure.gov.bd',
                 Referer: 'https://www.eprocure.gov.bd/resources/common/AdvSearchNOA.jsp',
+                'User-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
             },
         })
     );

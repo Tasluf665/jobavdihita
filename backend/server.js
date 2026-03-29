@@ -2,6 +2,7 @@ const app = require('./app');
 const connectDB = require('./config/db');
 const env = require('./config/env');
 const { startWeeklyHarvestScheduler } = require('./jobs/weeklyHarvestScheduler');
+const { startWeeklyStatusScheduler } = require('./jobs/weeklyStatusScheduler');
 
 const startServer = async () => {
     try {
@@ -13,6 +14,10 @@ const startServer = async () => {
             if (env.autoHarvestOnStart) {
                 startWeeklyHarvestScheduler();
             }
+
+            // if (env.autoStatusOnStart) {
+            //     startWeeklyStatusScheduler();
+            // }
         });
     } catch (error) {
         console.error('Failed to start server:', error.message);

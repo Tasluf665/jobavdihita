@@ -53,6 +53,8 @@ const shouldSkipHarvestForThisWeek = async (stateName) => {
         .sort({ started_at: -1 })
         .lean();
 
+    console.log("Latest Weekly Sync:", latestWeeklySync);
+
     if (!latestWeeklySync) {
         return { skip: false, reason: 'no_sync_in_last_week' };
     }
@@ -65,6 +67,8 @@ const shouldSkipHarvestForThisWeek = async (stateName) => {
 
     const scanned = Number(latestWeeklySync.contracts_scanned) || 0;
     const skip = scanned === totalContractsOnWebsite;
+
+    console.log("Harvest Check - Scanned:", scanned, "Total on Website:", totalContractsOnWebsite, "Skip:", skip);
 
     return {
         skip,

@@ -7,7 +7,9 @@
 		"dev": "nodemon server.js",
 		"start": "node server.js",
 		"harvest:contracts": "node jobs/harvestJob.js",
-		"harvest:contracts:sample": "node jobs/harvestJob.js --maxPages=2"
+		"harvest:contracts:sample": "node jobs/harvestJob.js --maxPages=2",
+		"status:check": "node jobs/statusCheckJob.js",
+		"status:check:sample": "node jobs/statusCheckJob.js --limit=10 --delayMs=500"
 	},
 	"dependencies": {
 		"axios": "^1.14.0",
