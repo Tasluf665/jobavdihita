@@ -11,6 +11,7 @@ const {
 } = require('./rowParser');
 const { getExistingTenderIdSet, filterNewRows } = require('./deduplicator');
 const logger = require('../../utils/logger');
+const { refreshEntityStats } = require('../../services/statsRefresh.service');
 
 const toNormalizedName = (value) =>
     String(value || '')
@@ -268,6 +269,12 @@ const runPipeline1 = async ({ stateName = 'Munshiganj', maxPages = null, size = 
             contractsUpdated,
             existingContractsSeen,
             errors: errors.length,
+        });
+
+        const statsRefresh = await refreshEntityStats({ district: stateName });
+        logger.info('pipeline1_stats_refreshed', {
+            district: stateName,
+            ...statsRefresh,
         });
 
         const durationMinutes = Math.round((Date.now() - startedMs) / 60000);

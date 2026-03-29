@@ -6,6 +6,7 @@ const { fetchExperienceByTenderId } = require('./experienceFetcher');
 const { classifyStatus } = require('./statusClassifier');
 const { detectStatusChange } = require('./changeDetector');
 const { waitForNextRequest } = require('./rateLimiter');
+const { refreshEntityStats } = require('../../services/statsRefresh.service');
 
 const getWeekNumber = (date = new Date()) => {
     const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
@@ -280,6 +281,12 @@ const runPipeline2 = async ({
 
             lastSeenId = contracts[contracts.length - 1]._id;
         }
+
+        const statsRefresh = await refreshEntityStats({ district });
+        logger.info('pipeline2_stats_refreshed', {
+            district,
+            ...statsRefresh,
+        });
 
         const durationMinutes = Math.round((Date.now() - startedMs) / 60000);
         await SyncLog.findByIdAndUpdate(syncLog._id, {
