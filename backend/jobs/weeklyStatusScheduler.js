@@ -54,6 +54,7 @@ const runWeeklyStatusCheckIfNeeded = async (trigger) => {
     try {
         const district = env.autoStatusDistrict || env.autoHarvestStateName;
         const check = await shouldSkipStatusCheckForThisWeek(district);
+
         if (check.skip) {
             logger.info('weekly_status_check_skipped', {
                 trigger,

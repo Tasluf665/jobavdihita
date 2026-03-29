@@ -15,7 +15,7 @@ const env = {
     autoStatusDistrict: process.env.AUTO_STATUS_DISTRICT || 'Munshiganj',
     autoStatusCron: process.env.AUTO_STATUS_CRON || '0 0 * * 1',
     autoStatusTimezone: process.env.AUTO_STATUS_TIMEZONE || 'Asia/Dhaka',
-    autoStatusDelayMs: Number(process.env.AUTO_STATUS_DELAY_MS) || 1200,
+    autoStatusDelayMs: Number(process.env.AUTO_STATUS_DELAY_MS) || 100,
 };
 
 if (!env.mongodbUrl) {
