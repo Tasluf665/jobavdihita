@@ -9,7 +9,7 @@ const env = {
     adminKey: process.env.ADMIN_KEY || '',
     autoHarvestOnStart: String(process.env.AUTO_HARVEST_ON_START || 'true') === 'true',
     autoHarvestStateName: process.env.AUTO_HARVEST_STATE_NAME || 'Munshiganj',
-    autoHarvestCron: process.env.AUTO_HARVEST_CRON || '0 3 * * 0',
+    autoHarvestCron: process.env.AUTO_HARVEST_CRON || '0 5 * * *',
     autoHarvestTimezone: process.env.AUTO_HARVEST_TIMEZONE || 'Asia/Dhaka',
     autoStatusOnStart: String(process.env.AUTO_STATUS_ON_START || 'true') === 'true',
     autoStatusDistrict: process.env.AUTO_STATUS_DISTRICT || 'Munshiganj',

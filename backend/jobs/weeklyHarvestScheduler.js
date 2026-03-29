@@ -44,19 +44,15 @@ const getWebsiteTotalContracts = async (stateName) => {
 };
 
 const shouldSkipHarvestForThisWeek = async (stateName) => {
-    const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-    const latestWeeklySync = await SyncLog.findOne({
+    const latestSync = await SyncLog.findOne({
         pipeline_name: 'econtract_harvest',
         status: { $in: ['completed', 'partial'] },
-        started_at: { $gte: weekAgo },
     })
         .sort({ started_at: -1 })
         .lean();
 
-    console.log("Latest Weekly Sync:", latestWeeklySync);
-
-    if (!latestWeeklySync) {
-        return { skip: false, reason: 'no_sync_in_last_week' };
+    if (!latestSync) {
+        return { skip: false, reason: 'no_previous_sync_found' };
     }
 
     const {
@@ -65,10 +61,8 @@ const shouldSkipHarvestForThisWeek = async (stateName) => {
         lastRowSerialNumber,
     } = await getWebsiteTotalContracts(stateName);
 
-    const scanned = Number(latestWeeklySync.contracts_scanned) || 0;
+    const scanned = Number(latestSync.contracts_scanned) || 0;
     const skip = scanned === totalContractsOnWebsite;
-
-    console.log("Harvest Check - Scanned:", scanned, "Total on Website:", totalContractsOnWebsite, "Skip:", skip);
 
     return {
         skip,
@@ -79,7 +73,7 @@ const shouldSkipHarvestForThisWeek = async (stateName) => {
         totalContractsOnWebsite,
         totalPagesOnWebsite,
         lastRowSerialNumber,
-        latestSyncStartedAt: latestWeeklySync.started_at,
+        latestSyncStartedAt: latestSync.started_at,
     };
 };
 

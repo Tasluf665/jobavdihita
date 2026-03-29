@@ -15,9 +15,9 @@ const startServer = async () => {
                 startWeeklyHarvestScheduler();
             }
 
-            // if (env.autoStatusOnStart) {
-            //     startWeeklyStatusScheduler();
-            // }
+            if (env.autoStatusOnStart) {
+                startWeeklyStatusScheduler();
+            }
         });
     } catch (error) {
         console.error('Failed to start server:', error.message);
