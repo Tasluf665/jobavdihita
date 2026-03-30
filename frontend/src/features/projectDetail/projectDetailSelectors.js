@@ -21,6 +21,18 @@ const formatDate = (value) => {
 
 const formatBdt = (value = 0) => `৳ ${Math.round(Number(value || 0)).toLocaleString('en-US')}`;
 
+const getOfficialId = (official) => {
+    if (!official) {
+        return null;
+    }
+
+    if (typeof official === 'string' || typeof official === 'number') {
+        return String(official);
+    }
+
+    return official._id || official.id || official.official_id || official.employee_id || null;
+};
+
 const toStatusLabel = (status) => {
     switch (status) {
         case 'ghost':
@@ -107,6 +119,7 @@ const selectProjectDetailViewModel = createSelector(selectProjectDetailState, (d
             contractor: contract.contractor_id?.company_name || contract.procuring_entity || 'Unknown Contractor',
             contractorRisk: 'Repeat offender: multiple delayed contracts detected',
             approvingEngineer: contract.official_id?.full_name || 'Not assigned',
+            approvingEngineerId: getOfficialId(contract.official_id),
             office: contract.official_id?.designation || contract.district || 'Munshiganj',
             method: contract.procurement_method || 'OTM (Open Tendering Method)',
             procuringEntity: contract.procuring_entity || '—',

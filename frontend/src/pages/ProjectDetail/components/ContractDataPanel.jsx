@@ -1,8 +1,14 @@
-function DataBlock({ label, value, hint }) {
+function DataBlock({ label, value, hint, valueHref }) {
     return (
         <div className="project-detail-data-block">
             <div className="project-detail-data-label">{label}</div>
-            <div className="project-detail-data-value">{value}</div>
+            {valueHref ? (
+                <a className="project-detail-data-value project-detail-data-link" href={valueHref}>
+                    {value}
+                </a>
+            ) : (
+                <div className="project-detail-data-value">{value}</div>
+            )}
             {hint ? <div className="project-detail-data-hint">{hint}</div> : null}
         </div>
     );
@@ -24,7 +30,12 @@ function ContractDataPanel({ data }) {
                     <DataBlock label="Funding Source" value={data.fundingSource} />
                     <DataBlock label="Signing Date" value={data.signingDate} />
                     <DataBlock label="Bidder Count" value={data.bidderCount} />
-                    <DataBlock label="Approving Engineer" value={data.approvingEngineer} hint={data.office} />
+                    <DataBlock
+                        label="Approving Engineer"
+                        value={data.approvingEngineer}
+                        valueHref={data.approvingEngineerId ? `/officials/${encodeURIComponent(data.approvingEngineerId)}` : null}
+                        hint={data.office}
+                    />
                     <DataBlock label="Procurement Method" value={data.method} />
                 </div>
 

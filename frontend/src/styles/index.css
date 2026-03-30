@@ -1092,6 +1092,15 @@ p {
   color: #212529;
 }
 
+.project-detail-data-link {
+  color: var(--text-link);
+  text-decoration: none;
+}
+
+.project-detail-data-link:hover {
+  text-decoration: underline;
+}
+
 .project-detail-data-hint {
   margin-top: 4px;
   color: #dc3545;

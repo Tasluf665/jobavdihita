@@ -1,14 +1,11 @@
 import ROUTES from '../../constants/routes';
 import PageWrapper from './PageWrapper';
-import Button from '../ui/Button';
 
 const NAV_ITEMS = [
     { label: 'Home', href: ROUTES.HOME },
     { label: 'Projects', href: ROUTES.PROJECTS },
     { label: 'Red Flags', href: ROUTES.RED_FLAGS },
     { label: 'Money', href: ROUTES.MONEY },
-    { label: 'Officials', href: ROUTES.OFFICIALS },
-    { label: 'Report', href: ROUTES.REPORT },
 ];
 
 function Navbar({ activeRoute }) {
@@ -30,13 +27,6 @@ function Navbar({ activeRoute }) {
                         </a>
                     ))}
                 </nav>
-
-                <div className="navbar-actions">
-                    <Button variant="danger">5 Active Alerts</Button>
-                    <span className="search-icon" aria-hidden="true">
-                        🔍
-                    </span>
-                </div>
             </PageWrapper>
         </header>
     );

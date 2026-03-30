@@ -4,6 +4,7 @@ import ProjectDetailPage from '../pages/ProjectDetail';
 import RedFlagsPage from '../pages/RedFlags';
 import ContractorsPage from '../pages/Contractors';
 import MoneyTrackerPage from '../pages/MoneyTracker';
+import OfficialsPage from '../pages/Officials';
 
 function AppRouter() {
     const path = window.location.pathname;
@@ -18,6 +19,11 @@ function AppRouter() {
         return <ContractorsPage contractorId={contractorId} />;
     }
 
+    if (path.startsWith('/officials/') && path !== '/officials') {
+        const officialId = decodeURIComponent(path.split('/')[2] || '');
+        return <OfficialsPage officialId={officialId} />;
+    }
+
     switch (path) {
         case '/contractors':
             return <ContractorsPage />;
@@ -27,6 +33,8 @@ function AppRouter() {
             return <AllProjectsPage />;
         case '/money':
             return <MoneyTrackerPage />;
+        case '/officials':
+            return <OfficialsPage />;
         case '/':
         default:
             return <HomePage />;
