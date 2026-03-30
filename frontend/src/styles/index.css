@@ -533,3 +533,341 @@ p {
     transform: rotate(360deg);
   }
 }
+
+.projects-main {
+  padding-top: 48px;
+  padding-bottom: 56px;
+}
+
+.projects-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+.projects-title {
+  margin: 0;
+  font-size: 48px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-weight: 800;
+}
+
+.projects-subtitle {
+  margin-top: 8px;
+  color: var(--text-secondary);
+  max-width: 680px;
+  line-height: 1.5;
+}
+
+.projects-header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.projects-export-btn {
+  border: 1px solid rgba(194, 198, 216, 0.3);
+  background: #fff;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #424655;
+}
+
+.projects-summary-grid {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.projects-summary-card {
+  background: #fff;
+  border: 1px solid rgba(194, 198, 216, 0.2);
+  box-shadow: var(--shadow-card);
+  border-radius: 8px;
+  padding: 18px 20px;
+}
+
+.projects-summary-label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #424655;
+  font-weight: 700;
+}
+
+.projects-summary-value {
+  margin-top: 6px;
+  font-size: 42px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-weight: 900;
+  color: #171c1f;
+}
+
+.projects-summary-value--primary {
+  color: #0d6efd;
+  white-space: nowrap;
+  font-size: 30px;
+}
+
+.projects-summary-value--danger {
+  color: #dc3545;
+}
+
+.projects-filter-bar {
+  margin-top: 24px;
+  border: 1px solid rgba(194, 198, 216, 0.2);
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
+  background: #fff;
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 140px 140px 170px 1fr;
+}
+
+.projects-filter-control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.projects-filter-control--grow {
+  width: 100%;
+}
+
+.projects-filter-label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #424655;
+  font-weight: 700;
+}
+
+.projects-select,
+.projects-search-input {
+  background: #f8f9fa;
+  border: 1px solid rgba(194, 198, 216, 0.3);
+  border-radius: 8px;
+  height: 38px;
+  padding: 0 12px;
+  font-size: 14px;
+  color: #171c1f;
+}
+
+.projects-filter-search-wrap {
+  min-width: 0;
+}
+
+.projects-filter-search-row {
+  display: flex;
+  gap: 8px;
+  min-width: 0;
+}
+
+.projects-search-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.projects-table-wrap {
+  margin-top: 24px;
+  border: 1px solid rgba(194, 198, 216, 0.2);
+  box-shadow: var(--shadow-card);
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.projects-table-scroll {
+  overflow-x: auto;
+}
+
+.projects-table {
+  width: 100%;
+  min-width: 1100px;
+  border-collapse: collapse;
+}
+
+.projects-table thead th {
+  background: #f8f9fa;
+  color: #424655;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 16px;
+  font-weight: 800;
+  border-bottom: 1px solid rgba(194, 198, 216, 0.2);
+}
+
+.projects-table tbody td {
+  padding: 14px 16px;
+  font-size: 14px;
+  color: #424655;
+  border-top: 1px solid rgba(194, 198, 216, 0.12);
+  vertical-align: middle;
+}
+
+.projects-table-row:first-child td {
+  border-top: none;
+}
+
+.projects-tender-id {
+  font-family:
+    "Liberation Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: #171c1f;
+  font-weight: 700;
+}
+
+.projects-name-cell {
+  max-width: 245px;
+  color: #171c1f;
+  font-weight: 600;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.projects-text-danger {
+  color: #dc3545 !important;
+  font-weight: 700;
+}
+
+.projects-date-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+}
+
+.projects-progress-cell {
+  min-width: 94px;
+}
+
+.projects-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.projects-progress-track {
+  background: #f1f5f9;
+  border-radius: 999px;
+  height: 6px;
+  overflow: hidden;
+}
+
+.projects-progress-fill {
+  height: 100%;
+}
+
+.projects-progress-fill--danger {
+  background: #dc3545;
+}
+
+.projects-progress-fill--info {
+  background: #0d6efd;
+}
+
+.projects-overdue {
+  font-weight: 700;
+}
+
+.projects-status-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 8px;
+  padding: 2px 10px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+}
+
+.projects-status-chip--ghost {
+  background: #f8d7da;
+  color: #842029;
+  border-color: rgba(220, 53, 69, 0.2);
+}
+
+.projects-status-chip--completed {
+  background: #198754;
+  color: #fff;
+}
+
+.projects-status-chip--ongoing {
+  background: rgba(13, 110, 253, 0.1);
+  color: #0d6efd;
+  border-color: rgba(13, 110, 253, 0.2);
+}
+
+.projects-status-chip--pending {
+  background: #fffbeb;
+  color: #d97706;
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+.projects-pagination {
+  background: #f8f9fa;
+  border-top: 1px solid rgba(194, 198, 216, 0.2);
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.projects-pagination-text {
+  font-size: 11px;
+  color: #424655;
+  font-weight: 600;
+}
+
+.projects-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.projects-page-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(194, 198, 216, 0.3);
+  background: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  color: #171c1f;
+}
+
+.projects-page-btn--active {
+  background: #0d6efd;
+  color: #fff;
+  border-color: #0d6efd;
+}
+
+@media (max-width: 1100px) {
+  .projects-header,
+  .projects-filter-bar {
+    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .projects-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

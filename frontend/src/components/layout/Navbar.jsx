@@ -11,7 +11,9 @@ const NAV_ITEMS = [
     { label: 'Report', href: ROUTES.REPORT },
 ];
 
-function Navbar() {
+function Navbar({ activeRoute }) {
+    const currentRoute = activeRoute || window.location.pathname;
+
     return (
         <header className="app-navbar">
             <PageWrapper className="app-navbar__inner">
@@ -22,7 +24,7 @@ function Navbar() {
                         <a
                             key={item.label}
                             href={item.href}
-                            className={`nav-link ${item.href === ROUTES.HOME ? 'nav-link--active' : ''}`}
+                            className={`nav-link ${item.href === currentRoute ? 'nav-link--active' : ''}`}
                         >
                             {item.label}
                         </a>
