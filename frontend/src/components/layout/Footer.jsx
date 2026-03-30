@@ -1,8 +1,9 @@
 import PageWrapper from './PageWrapper';
+import ROUTES from '../../constants/routes';
 
 const FOOTER_LINKS = [
     { label: 'Data Sources', href: 'https://www.eprocure.gov.bd/' },
-    { label: 'Disclaimer' },
+    { label: 'Disclaimer', href: ROUTES.DISCLAIMER },
     { label: 'Privacy Policy' },
     { label: 'Contact' },
 ];
@@ -21,7 +22,12 @@ function Footer() {
                 <div className="footer-links">
                     {FOOTER_LINKS.map((link) => (
                         link.href ? (
-                            <a key={link.label} href={link.href} target="_blank" rel="noreferrer">
+                            <a
+                                key={link.label}
+                                href={link.href}
+                                target={link.href.startsWith('http') ? '_blank' : undefined}
+                                rel={link.href.startsWith('http') ? 'noreferrer' : undefined}
+                            >
                                 {link.label}
                             </a>
                         ) : (
