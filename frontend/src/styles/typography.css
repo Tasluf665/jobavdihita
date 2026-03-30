@@ -1,0 +1,47 @@
+.h1-display {
+  font-size: 56px;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.h2-title {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.h3-section {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.33;
+  letter-spacing: -0.025em;
+}
+
+.body-lg {
+  font-size: 18px;
+  line-height: 1.56;
+}
+
+.body-sm {
+  font-size: 14px;
+  line-height: 1.43;
+}
+
+.caps-xs {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 1.33;
+}
+
+@media (max-width: 900px) {
+  .h1-display {
+    font-size: 40px;
+  }
+
+  .h3-section {
+    font-size: 20px;
+  }
+}

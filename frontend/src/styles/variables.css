@@ -1,0 +1,31 @@
+:root {
+  --font-sans:
+    Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial,
+    sans-serif;
+
+  --bg-page: #f6fafe;
+  --bg-surface: #ffffff;
+  --bg-soft: #f0f4f8;
+  --bg-footer: #f8fafc;
+
+  --text-primary: #171c1f;
+  --text-secondary: #424655;
+  --text-muted: #64748b;
+  --text-link: #0057cd;
+
+  --border-soft: rgba(194, 198, 216, 0.25);
+  --border-footer: #e2e8f0;
+
+  --success: #198754;
+  --info: #0d6efd;
+  --danger: #ba1a1a;
+  --danger-soft: #ffdad6;
+
+  --shadow-card: 0 12px 32px -4px rgba(23, 28, 31, 0.08);
+  --shadow-nav: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  --container-width: 1280px;
+}
