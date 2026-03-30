@@ -6,6 +6,11 @@ const { toCsv } = require('../utils/csvExporter');
 const buildContractsFilter = (query) => {
     const filter = {};
 
+    if (query.q) {
+        const regex = new RegExp(query.q, 'i');
+        filter.$or = [{ tender_id: regex }, { description: regex }];
+    }
+
     if (query.district) {
         filter.district = query.district;
     }

@@ -24,6 +24,7 @@ const useContracts = () => {
         contracts.filters.status,
         contracts.filters.sortBy,
         contracts.filters.sortOrder,
+        contracts.filters.searchTerm,
     ]);
 
     return {

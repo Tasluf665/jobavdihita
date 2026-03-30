@@ -33,6 +33,7 @@ export const fetchContractsData = createAsyncThunk(
                 district,
                 page,
                 limit,
+                searchTerm: filters.searchTerm || undefined,
                 status: filters.status || undefined,
                 year: filters.year || undefined,
                 sortBy: filters.sortBy,
@@ -73,6 +74,7 @@ const contractsSlice = createSlice({
         },
         setContractsSearchTerm(state, action) {
             state.filters.searchTerm = action.payload;
+            state.page = 1;
         },
         resetContractsFilters(state) {
             state.filters.year = '';

@@ -120,20 +120,10 @@ const selectProjectsSummaryItems = createSelector(selectContractsState, (contrac
 });
 
 const selectProjectsRows = createSelector(selectContractsState, (contracts) => {
-    const searchTerm = contracts.filters.searchTerm.trim().toLowerCase();
     const currentPage = Number(contracts.pagination?.page || contracts.page || 1);
     const limit = Number(contracts.pagination?.limit || contracts.limit || 5);
 
-    const filteredItems = contracts.items.filter((item) => {
-        if (!searchTerm) {
-            return true;
-        }
-
-        const text = `${item.tender_id || ''} ${item.description || ''}`.toLowerCase();
-        return text.includes(searchTerm);
-    });
-
-    return filteredItems.map((item, index) => {
+    return contracts.items.map((item, index) => {
         const { label, tone } = toStatusMeta(item.computed_status);
         const daysOverdue = Number(item.days_overdue || 0);
         const physical = Math.max(0, Math.min(100, Number(item.work_status?.physical_progress_pct || 0)));
