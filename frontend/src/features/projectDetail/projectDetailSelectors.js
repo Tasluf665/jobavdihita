@@ -109,6 +109,10 @@ const selectProjectDetailViewModel = createSelector(selectProjectDetailState, (d
             approvingEngineer: contract.official_id?.full_name || 'Not assigned',
             office: contract.official_id?.designation || contract.district || 'Munshiganj',
             method: contract.procurement_method || 'OTM (Open Tendering Method)',
+            procuringEntity: contract.procuring_entity || '—',
+            fundingSource: contract.funding_source || '—',
+            signingDate: formatDate(contract.signing_date),
+            bidderCount: Number(contract.bidder_count || 0).toLocaleString('en-US'),
             startDate: formatDate(timelineStart),
             endDate: formatDate(timelineEnd),
             timelineAlert:
@@ -136,8 +140,19 @@ const selectProjectDetailViewModel = createSelector(selectProjectDetailState, (d
         redFlags: redFlags.slice(0, 3).map((flag) => ({
             title: flag.title || flag.flag_type || 'Flag',
             description: flag.description || 'Potential procurement anomaly detected.',
+            flagType: flag.flag_type || 'unknown',
+            severity: (flag.severity || 'warning').toUpperCase(),
+            detectedAt: formatDate(flag.detected_at),
+            evidence: flag.evidence || null,
         })),
-        evidence: ['E-GP Contract Award Document', 'Technical Specification PDF', 'Municipal Archive Records'],
+        evidence: contract.detail_url
+            ? [
+                {
+                    label: 'Detail URL',
+                    url: contract.detail_url,
+                },
+            ]
+            : [],
         community: {
             consensus: 78,
             verdict: 'Work NOT Done',

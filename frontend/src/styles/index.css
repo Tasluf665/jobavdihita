@@ -1211,6 +1211,26 @@ p {
   line-height: 1.5;
 }
 
+.project-detail-red-flag-meta {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 10px;
+  color: #495057;
+}
+
+.project-detail-red-flag-evidence {
+  margin: 8px 0 0;
+  padding-left: 16px;
+  color: #6c757d;
+  font-size: 10px;
+}
+
+.project-detail-red-flag-evidence li {
+  margin-top: 2px;
+}
+
 .project-detail-evidence-card {
   background: #f8f9fa;
   border: 1px solid #dee2e6;
@@ -1236,6 +1256,12 @@ p {
 
 .project-detail-evidence-card li:last-child {
   border-bottom: none;
+}
+
+.project-detail-evidence-card a {
+  color: #212529;
+  text-decoration: none;
+  font-weight: 700;
 }
 
 .project-detail-community-grid {

@@ -20,6 +20,10 @@ function ContractDataPanel({ data }) {
             <div className="project-detail-data-grid">
                 <div className="project-detail-data-column">
                     <DataBlock label="Contractor Entity" value={data.contractor} hint={data.contractorRisk} />
+                    <DataBlock label="Procuring Entity" value={data.procuringEntity} />
+                    <DataBlock label="Funding Source" value={data.fundingSource} />
+                    <DataBlock label="Signing Date" value={data.signingDate} />
+                    <DataBlock label="Bidder Count" value={data.bidderCount} />
                     <DataBlock label="Approving Engineer" value={data.approvingEngineer} hint={data.office} />
                     <DataBlock label="Procurement Method" value={data.method} />
                 </div>
