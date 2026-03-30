@@ -107,8 +107,109 @@ const getCriticalRedFlags = async (limit = 10) => {
     );
 };
 
+const getRepeatWinners = async (query = {}) => {
+    const limit = Math.max(1, Number(query.limit || 5));
+    const minWins = Math.max(2, Number(query.min_wins || 2));
+
+    const match = {
+        contractor_id: { $ne: null },
+    };
+
+    if (query.district) {
+        match.district = query.district;
+    }
+
+    return Contract.aggregate([
+        { $match: match },
+        {
+            $lookup: {
+                from: 'contractors',
+                localField: 'contractor_id',
+                foreignField: '_id',
+                as: 'contractor_data',
+            },
+        },
+        {
+            $addFields: {
+                contractor_name: {
+                    $ifNull: [{ $first: '$contractor_data.company_name' }, '$procuring_entity'],
+                },
+                has_repeat_winner_flag: {
+                    $gt: [
+                        {
+                            $size: {
+                                $filter: {
+                                    input: { $ifNull: ['$red_flags', []] },
+                                    as: 'flag',
+                                    cond: { $eq: ['$$flag.flag_type', 'repeat_winner'] },
+                                },
+                            },
+                        },
+                        0,
+                    ],
+                },
+                has_any_red_flag: {
+                    $gt: [{ $size: { $ifNull: ['$red_flags', []] } }, 0],
+                },
+            },
+        },
+        {
+            $group: {
+                _id: '$contractor_id',
+                contractor_name: { $first: '$contractor_name' },
+                tenders_won: { $sum: 1 },
+                total_value: { $sum: { $ifNull: ['$contract_value', 0] } },
+                verified_count: {
+                    $sum: {
+                        $cond: [{ $gt: [{ $ifNull: ['$work_status.physical_progress_pct', 0] }, 0] }, 1, 0],
+                    },
+                },
+                repeat_winner_flags: {
+                    $sum: {
+                        $cond: ['$has_repeat_winner_flag', 1, 0],
+                    },
+                },
+                flagged_contracts: {
+                    $sum: {
+                        $cond: ['$has_any_red_flag', 1, 0],
+                    },
+                },
+            },
+        },
+        { $match: { tenders_won: { $gte: minWins } } },
+        {
+            $project: {
+                _id: 0,
+                contractor_id: '$_id',
+                contractor_name: 1,
+                tenders_won: 1,
+                total_value: 1,
+                verified_count: 1,
+                completion_rate_pct: {
+                    $round: [
+                        {
+                            $multiply: [
+                                {
+                                    $cond: [{ $gt: ['$tenders_won', 0] }, { $divide: ['$verified_count', '$tenders_won'] }, 0],
+                                },
+                                100,
+                            ],
+                        },
+                        0,
+                    ],
+                },
+                repeat_winner_flags: 1,
+                flagged_contracts: 1,
+            },
+        },
+        { $sort: { repeat_winner_flags: -1, tenders_won: -1, total_value: -1 } },
+        { $limit: limit },
+    ]);
+};
+
 module.exports = {
     listRedFlags,
     getRedFlagSummary,
     getCriticalRedFlags,
+    getRepeatWinners,
 };

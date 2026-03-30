@@ -26,7 +26,7 @@ const selectCounterCards = createSelector(selectRedFlagsState, (redFlags) => {
     const totalFlags = Object.values(summary).reduce((sum, count) => sum + Number(count || 0), 0);
     const ghostCount = Number(summary.ghost_project || 0);
     const impossibleCount = Number(summary.impossible_timeline || 0);
-    const repeatWinnerCount = Number(summary.repeat_winner || 0);
+    const repeatWinnerCount = Number(redFlags.repeatWinnerItems?.length || 0);
 
     const ghostPct = totalFlags ? Math.round((ghostCount / totalFlags) * 1000) / 10 : 0;
     const impossiblePct = totalFlags ? Math.round((impossibleCount / totalFlags) * 1000) / 10 : 0;
@@ -115,43 +115,25 @@ const selectTimelineCards = createSelector(selectRedFlagsState, (redFlags) => {
 });
 
 const selectRepeatWinners = createSelector(selectRedFlagsState, (redFlags) => {
-    const source = redFlags.analyticsItems.length ? redFlags.analyticsItems : redFlags.items;
-    const grouped = source.reduce((acc, item) => {
-        const contractorName = item.contractor_name || item.procuring_entity || 'Unknown Contractor';
-
-        if (!acc[contractorName]) {
-            acc[contractorName] = {
-                name: contractorName,
-                tendersWon: 0,
-                totalValue: 0,
-                verifiedCount: 0,
-            };
-        }
-
-        acc[contractorName].tendersWon += 1;
-        acc[contractorName].totalValue += Number(item.contract_value || 0);
-        if (Number(item.work_status?.physical_progress_pct || 0) > 0) {
-            acc[contractorName].verifiedCount += 1;
-        }
-
-        return acc;
-    }, {});
-
-    return Object.values(grouped)
-        .filter((row) => row.tendersWon >= 2)
-        .sort((a, b) => b.tendersWon - a.tendersWon)
+    return (redFlags.repeatWinnerItems || [])
         .slice(0, 2)
         .map((row) => {
-            const completionRate = row.tendersWon ? Math.round((row.verifiedCount / row.tendersWon) * 100) : 0;
+            const tendersWon = Number(row.tenders_won || 0);
+            const flaggedContracts = Number(row.flagged_contracts || 0);
+            const repeatWinnerFlags = Number(row.repeat_winner_flags || 0);
+            const completionRate = Number(row.completion_rate_pct || 0);
 
             return {
-                name: row.name,
-                risk: row.tendersWon >= 4 ? 'Critical High' : 'High Risk',
-                summary: `Awarded ${row.tendersWon} flagged tenders with unusually high anomaly concentration.`,
+                name: row.contractor_name || 'Unknown Contractor',
+                risk: tendersWon >= 4 || repeatWinnerFlags >= 2 ? 'Critical High' : 'High Risk',
+                summary:
+                    repeatWinnerFlags > 0
+                        ? `Awarded ${tendersWon} projects (${flaggedContracts} flagged, ${repeatWinnerFlags} repeat-winner signals).`
+                        : `Awarded ${tendersWon} projects (${flaggedContracts} flagged).`,
                 completion: `${completionRate}% Verified`,
                 completionPct: completionRate,
-                totalValue: formatBdt(row.totalValue),
-                tendersWon: String(row.tendersWon),
+                totalValue: formatBdt(row.total_value),
+                tendersWon: String(tendersWon),
             };
         });
 });

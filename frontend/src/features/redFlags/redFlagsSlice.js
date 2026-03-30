@@ -4,6 +4,7 @@ import redFlagsApi from '../../services/redFlagsApi';
 const initialState = {
     items: [],
     analyticsItems: [],
+    repeatWinnerItems: [],
     summary: {},
     pagination: null,
     page: 1,
@@ -16,15 +17,17 @@ export const fetchRedFlagsData = createAsyncThunk('redFlags/fetchRedFlagsData', 
     const redFlagsState = getState().redFlags;
     const { page, limit } = redFlagsState;
 
-    const [list, analyticsList, summary] = await Promise.all([
+    const [list, analyticsList, summary, repeatWinners] = await Promise.all([
         redFlagsApi.fetchRedFlags({ page, limit, sortBy: 'days_overdue' }),
         redFlagsApi.fetchRedFlags({ page: 1, limit: 100, sortBy: 'flag_count' }),
         redFlagsApi.fetchRedFlagsSummary(),
+        redFlagsApi.fetchRepeatWinners({ limit: 1000, minWins: 50 }),
     ]);
 
     return {
         items: list.items,
         analyticsItems: analyticsList.items,
+        repeatWinnerItems: repeatWinners,
         pagination: list.pagination,
         summary,
     };
@@ -49,6 +52,7 @@ const redFlagsSlice = createSlice({
                 state.error = null;
                 state.items = action.payload.items;
                 state.analyticsItems = action.payload.analyticsItems;
+                state.repeatWinnerItems = action.payload.repeatWinnerItems;
                 state.pagination = action.payload.pagination;
                 state.summary = action.payload.summary;
             })

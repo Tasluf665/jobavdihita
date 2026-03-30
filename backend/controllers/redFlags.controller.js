@@ -27,8 +27,18 @@ const getCritical = async (req, res, next) => {
     }
 };
 
+const getRepeatWinners = async (req, res, next) => {
+    try {
+        const data = await redFlagsService.getRepeatWinners(req.query);
+        res.json({ success: true, data });
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     listRedFlags,
     getSummary,
     getCritical,
+    getRepeatWinners,
 };

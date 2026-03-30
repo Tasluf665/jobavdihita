@@ -18,9 +18,19 @@ const fetchRedFlagsSummary = async () => {
     return response.data || {};
 };
 
+const fetchRepeatWinners = async ({ limit = 2, minWins = 2 } = {}) => {
+    const response = await apiGet('/red-flags/repeat-winners', {
+        limit,
+        min_wins: minWins,
+    });
+
+    return response.data || [];
+};
+
 const redFlagsApi = {
     fetchRedFlags,
     fetchRedFlagsSummary,
+    fetchRepeatWinners,
 };
 
 export default redFlagsApi;
