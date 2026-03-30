@@ -5,6 +5,7 @@ const ROUTES = {
     MONEY: '/money',
     OFFICIALS: '/officials',
     DISCLAIMER: '/disclaimer',
+    PRIVACY_POLICY: '/privacy-policy',
     REPORT: '/report',
 };
 

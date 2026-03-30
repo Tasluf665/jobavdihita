@@ -4,7 +4,7 @@ import ROUTES from '../../constants/routes';
 const FOOTER_LINKS = [
     { label: 'Data Sources', href: 'https://www.eprocure.gov.bd/' },
     { label: 'Disclaimer', href: ROUTES.DISCLAIMER },
-    { label: 'Privacy Policy' },
+    { label: 'Privacy Policy', href: ROUTES.PRIVACY_POLICY },
     { label: 'Contact' },
 ];
 
