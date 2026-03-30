@@ -737,6 +737,11 @@ p {
   overflow: hidden;
 }
 
+.projects-value-cell {
+  white-space: nowrap;
+  min-width: 112px;
+}
+
 .projects-text-danger {
   color: #dc3545 !important;
   font-weight: 700;
@@ -747,6 +752,16 @@ p {
   flex-direction: column;
   gap: 2px;
   font-size: 12px;
+}
+
+.projects-table thead th:nth-child(5),
+.projects-table tbody td:nth-child(5) {
+  width: 140px;
+}
+
+.projects-table thead th:nth-child(6),
+.projects-table tbody td:nth-child(6) {
+  width: 130px;
 }
 
 .projects-progress-cell {
@@ -839,17 +854,27 @@ p {
   display: flex;
   align-items: center;
   gap: 4px;
+  flex-wrap: nowrap;
+  min-width: 0;
 }
 
 .projects-page-btn {
-  width: 32px;
+  min-width: 38px;
+  width: auto;
   height: 32px;
+  padding: 0 10px;
   border-radius: 8px;
   border: 1px solid rgba(194, 198, 216, 0.3);
   background: #fff;
   font-size: 12px;
   font-weight: 700;
   color: #171c1f;
+  white-space: nowrap;
+}
+
+.projects-page-btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .projects-page-btn--active {

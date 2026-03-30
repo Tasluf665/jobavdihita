@@ -52,7 +52,7 @@ const listContracts = async (query) => {
     const [items, total] = await Promise.all([
         Contract.find(filter)
             .select(
-                'tender_id package_number description district procuring_entity contract_value computed_status days_overdue red_flags work_status notification_date'
+                'tender_id package_number description district procuring_entity contract_value computed_status days_overdue red_flags work_status notification_date contract_start_date contract_end_date'
             )
             .sort(sort)
             .skip(skip)

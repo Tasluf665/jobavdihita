@@ -11,7 +11,7 @@ function ProjectTableRow({ row }) {
                 </div>
             </td>
             <td className={row.danger ? 'projects-text-danger' : ''}>{row.contractor}</td>
-            <td>{row.value}</td>
+            <td className="projects-value-cell">{row.value}</td>
             <td>
                 <div className="projects-date-cell">
                     <span>{row.dates[0]}</span>
