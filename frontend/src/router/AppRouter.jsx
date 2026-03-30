@@ -1,6 +1,7 @@
 import HomePage from '../pages/Home';
 import AllProjectsPage from '../pages/AllProjects';
 import ProjectDetailPage from '../pages/ProjectDetail';
+import RedFlagsPage from '../pages/RedFlags';
 
 function AppRouter() {
     const path = window.location.pathname;
@@ -11,6 +12,8 @@ function AppRouter() {
     }
 
     switch (path) {
+        case '/red-flags':
+            return <RedFlagsPage />;
         case '/projects':
             return <AllProjectsPage />;
         case '/':

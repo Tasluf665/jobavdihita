@@ -29,6 +29,19 @@ const listRedFlags = async (query) => {
         Contract.aggregate([
             { $match: filter },
             { $addFields: { red_flags_count: { $size: '$red_flags' } } },
+            {
+                $lookup: {
+                    from: 'contractors',
+                    localField: 'contractor_id',
+                    foreignField: '_id',
+                    as: 'contractor_data',
+                },
+            },
+            {
+                $addFields: {
+                    contractor_name: { $ifNull: [{ $first: '$contractor_data.company_name' }, null] },
+                },
+            },
             { $sort: sort },
             { $skip: skip },
             { $limit: limit },
@@ -37,10 +50,16 @@ const listRedFlags = async (query) => {
                     tender_id: 1,
                     description: 1,
                     district: 1,
+                    procuring_entity: 1,
                     contract_value: 1,
                     days_overdue: 1,
+                    notification_date: 1,
+                    contract_end_date: 1,
+                    work_status: 1,
+                    computed_status: 1,
                     red_flags: 1,
                     red_flags_count: 1,
+                    contractor_name: 1,
                     contractor_id: 1,
                     official_id: 1,
                 },
