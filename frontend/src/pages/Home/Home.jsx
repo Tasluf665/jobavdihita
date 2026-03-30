@@ -2,45 +2,59 @@ import AlertBanner from '../../components/ui/AlertBanner';
 import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
 import PageWrapper from '../../components/layout/PageWrapper';
+import LoadingSpinner from '../../components/ui/LoadingSpinner';
+import ErrorMessage from '../../components/feedback/ErrorMessage';
+import useDashboard from '../../hooks/useDashboard';
 import HeroStats from './components/HeroStats';
 import BudgetAllocationBar from './components/BudgetAllocationBar';
 import RedFlagPreview from './components/RedFlagPreview';
 import RecentCompletions from './components/RecentCompletions';
 import AnnualBudgetChart from './components/AnnualBudgetChart';
 
-const ALERTS = [
-    'Urgent: Audit pending for Munshiganj Road Project ID #9928',
-    'New transparency report released for Munshiganj City Council',
-    'Budget discrepancy flagged in Munshiganj District Health sector',
-];
-
 function Home() {
+    const { district, alerts, isLoading, error, heroStats, budget, redFlags, recentCompletions, yearlyAudit, reload } =
+        useDashboard('Munshiganj');
+
+    console.log('Homepage data:', { district, alerts, isLoading, error, heroStats, budget, redFlags, recentCompletions, yearlyAudit });
+
+
     return (
         <>
-            <AlertBanner alerts={ALERTS} />
             <Navbar />
 
             <main className="home-main">
                 <PageWrapper>
                     <section>
                         <h1 className="h1-display" style={{ margin: 0 }}>
-                            Civic Watchdog: Munshiganj
+                            Civic Watchdog: {district}
                         </h1>
                         <p className="hero-subtitle body-lg">
                             Real-time transparency monitoring for public infrastructure and budget allocation in the
-                            Munshiganj district.
+                            {district} district.
                         </p>
                     </section>
 
-                    <HeroStats />
-                    <BudgetAllocationBar />
+                    {isLoading ? (
+                        <div style={{ marginTop: '20px' }}>
+                            <LoadingSpinner label="Syncing latest civic data..." />
+                        </div>
+                    ) : null}
+
+                    {error ? (
+                        <div style={{ marginTop: '20px' }}>
+                            <ErrorMessage message={error} onRetry={reload} />
+                        </div>
+                    ) : null}
+
+                    <HeroStats stats={heroStats} />
+                    <BudgetAllocationBar budget={budget} />
 
                     <section className="two-column-section">
-                        <RedFlagPreview />
-                        <RecentCompletions />
+                        <RedFlagPreview items={redFlags} />
+                        <RecentCompletions items={recentCompletions} />
                     </section>
 
-                    <AnnualBudgetChart />
+                    <AnnualBudgetChart bars={yearlyAudit} />
                 </PageWrapper>
             </main>
 

@@ -1,18 +1,5 @@
 import Button from '../../../components/ui/Button';
 
-const BARS = [
-    { year: 2017, value: '৳1.45B', allocated: 21, delivered: 16 },
-    { year: 2018, value: '৳1.98B', allocated: 29, delivered: 21 },
-    { year: 2019, value: '৳3.76B', allocated: 52, delivered: 24 },
-    { year: 2020, value: '৳2.64B', allocated: 37, delivered: 22 },
-    { year: 2021, value: '৳3.95B', allocated: 54, delivered: 19 },
-    { year: 2022, value: '৳3.20B', allocated: 47, delivered: 6, gap: true },
-    { year: 2023, value: '৳4.84B', allocated: 65, delivered: 3, gap: true },
-    { year: 2024, value: '৳6.13B', allocated: 81, delivered: 0, gap: true },
-    { year: 2025, value: '৳6.81B', allocated: 90, ongoing: 2 },
-    { year: 2026, value: '৳3.77B', allocated: 52 },
-];
-
 const LEGEND = [
     { label: 'Total Allocated', color: 'rgba(13, 110, 253, 0.3)' },
     { label: 'Delivered Amount', color: 'var(--success)' },
@@ -20,7 +7,11 @@ const LEGEND = [
     { label: 'Delivery Gap', color: '#fdf2f2', gap: true },
 ];
 
-function AnnualBudgetChart() {
+function AnnualBudgetChart({ bars = [] }) {
+    if (!bars.length) {
+        return null;
+    }
+
     return (
         <section className="audit-section" aria-label="Annual Budget Audit">
             <div className="audit-header">
@@ -57,7 +48,7 @@ function AnnualBudgetChart() {
                 </div>
 
                 <div className="chart-bars">
-                    {BARS.map((bar) => (
+                    {bars.map((bar) => (
                         <div className="chart-bar-wrap" key={bar.year}>
                             <div className="chart-bar-value">{bar.value}</div>
                             <div

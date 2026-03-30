@@ -1,16 +1,14 @@
-const SEGMENTS = [
-    { label: 'Disbursed (65%)', width: 65, color: 'var(--success)' },
-    { label: 'Pending (20%)', width: 20, color: 'var(--info)' },
-    { label: 'Unaccounted (15%)', width: 15, color: 'var(--danger)' },
-];
-
 const LEGEND = [
     { label: 'Completed Works', color: 'var(--success)' },
-    { label: 'Ongoing Construction', color: 'var(--info)' },
-    { label: 'Missing Receipts/Audit', color: 'var(--danger)' },
+    { label: 'Ongoing Projects', color: 'var(--info)' },
+    { label: 'Ghost / Overdue Projects', color: 'var(--danger)' },
 ];
 
-function BudgetAllocationBar() {
+function BudgetAllocationBar({ budget }) {
+    if (!budget) {
+        return null;
+    }
+
     return (
         <section className="budget-section" aria-label="District budget allocation">
             <div className="budget-header">
@@ -23,18 +21,19 @@ function BudgetAllocationBar() {
 
                 <div className="budget-total">
                     <div className="caps-xs budget-total__label">Total Utilized</div>
-                    <div className="budget-total__value">৳ 4.82 Billion</div>
+                    <div className="budget-total__value">{budget.totalUtilized}</div>
                 </div>
             </div>
 
             <div className="allocation-bar">
-                {SEGMENTS.map((segment) => (
+                {budget.segments.map((segment) => (
                     <div
                         key={segment.label}
                         className="allocation-segment"
                         style={{ width: `${segment.width}%`, background: segment.color }}
+                        title={segment.label}
                     >
-                        {segment.label}
+                        {segment.width >= 14 ? segment.label : ''}
                     </div>
                 ))}
             </div>

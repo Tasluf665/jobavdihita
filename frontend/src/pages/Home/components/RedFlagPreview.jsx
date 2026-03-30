@@ -1,27 +1,19 @@
 import SectionHeader from '../../../components/ui/SectionHeader';
 import StatusBadge from '../../../components/ui/StatusBadge';
+import truncateText from '../../../utils/truncateText';
 
-const RED_FLAGS = [
-    {
-        title: 'Munshiganj Bridge Connector #4',
-        description: '142 days overdue. Contractor unresponsive since July.',
-    },
-    {
-        title: 'Upazila Health Complex Renovation',
-        description: 'Materials quality audit failed 3 times.',
-    },
-];
-
-function RedFlagPreview() {
+function RedFlagPreview({ items = [] }) {
     return (
         <section>
             <SectionHeader icon="🚩" title="Red Flag Projects" actionLabel="View All" />
 
             <div className="issue-list">
-                {RED_FLAGS.map((item) => (
+                {items.map((item) => (
                     <article key={item.title} className="issue-item" style={{ borderLeftColor: 'var(--danger)' }}>
-                        <div>
-                            <h4 className="issue-item__title">{item.title}</h4>
+                        <div className="issue-item__content">
+                            <h4 className="issue-item__title" title={item.title}>
+                                {truncateText(item.title)}
+                            </h4>
                             <p className="issue-item__desc">{item.description}</p>
                         </div>
                         <StatusBadge tone="critical">Critical</StatusBadge>

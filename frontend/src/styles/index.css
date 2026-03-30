@@ -316,12 +316,21 @@ p {
   display: flex;
   justify-content: space-between;
   gap: 12px;
+  min-width: 0;
+}
+
+.issue-item__content {
+  min-width: 0;
+  flex: 1;
 }
 
 .issue-item__title {
   font-size: 22px;
   line-height: 1.1;
   font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .issue-item__desc {
@@ -513,5 +522,14 @@ p {
     overflow-x: auto;
     display: flex;
     gap: 18px;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
