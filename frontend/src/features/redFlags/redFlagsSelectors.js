@@ -130,6 +130,10 @@ const selectRepeatWinners = createSelector(selectRedFlagsState, (redFlags) => {
             const completionRate = Number(row.completion_rate_pct || 0);
 
             return {
+                contractorId:
+                    typeof row.contractor_id === 'string'
+                        ? row.contractor_id
+                        : row.contractor_id?._id || row.contractor_id?.$oid || null,
                 name: row.contractor_name || 'Unknown Contractor',
                 risk: tendersWon >= 4 || repeatWinnerFlags >= 2 ? 'Critical High' : 'High Risk',
                 summary:

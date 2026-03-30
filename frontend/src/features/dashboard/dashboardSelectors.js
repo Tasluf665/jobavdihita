@@ -122,6 +122,7 @@ const selectBudgetSummary = createSelector(selectDashboardState, (dashboard) => 
 
 const selectCriticalPreview = createSelector(selectDashboardState, (dashboard) =>
     dashboard.criticalFlags.slice(0, 2).map((flag) => ({
+        tenderId: flag.tender_id,
         title: flag.description || `Project #${flag.tender_id}`,
         description: `${flag.flag_title || 'Critical issue'}${flag.contractor_name ? ` — ${flag.contractor_name}` : ''}`,
     }))
@@ -132,6 +133,7 @@ const selectRecentCompletions = createSelector(selectDashboardState, (dashboard)
     const source = completed.length ? completed : dashboard.recentActivity;
 
     return source.slice(0, 2).map((row) => ({
+        tenderId: row.tender_id,
         title: row.description || `Project #${row.tender_id}`,
         description: `Tender #${row.tender_id}`,
     }));

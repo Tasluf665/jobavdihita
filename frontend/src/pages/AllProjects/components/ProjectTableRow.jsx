@@ -14,7 +14,15 @@ function ProjectTableRow({ row }) {
                     {row.projectName}
                 </a>
             </td>
-            <td className={row.danger ? 'projects-text-danger' : ''}>{row.contractor}</td>
+            <td className={row.danger ? 'projects-text-danger' : ''}>
+                {row.contractorId ? (
+                    <a href={`/contractors/${row.contractorId}`} className="projects-row-link">
+                        {row.contractor}
+                    </a>
+                ) : (
+                    row.contractor
+                )}
+            </td>
             <td className="projects-value-cell">{row.value}</td>
             <td>
                 <div className="projects-date-cell">

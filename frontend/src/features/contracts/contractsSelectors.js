@@ -144,7 +144,11 @@ const selectProjectsRows = createSelector(selectContractsState, (contracts) => {
             id: String((currentPage - 1) * limit + index + 1).padStart(2, '0'),
             tenderId: item.tender_id,
             projectName: item.description || 'Untitled project',
-            contractor: item.procuring_entity || '—',
+            contractor: item.contractor_id?.company_name || item.contractor_name || 'Unknown Contractor',
+            contractorId:
+                typeof item.contractor_id === 'string'
+                    ? item.contractor_id
+                    : item.contractor_id?._id || item.contractor_id?.$oid || null,
             value: formatCompactBdt(Number(item.contract_value || 0)),
             dates: [
                 `S: ${formatDate(item.contract_start_date || item.notification_date)}`,

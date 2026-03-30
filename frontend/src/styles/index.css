@@ -299,6 +299,11 @@ p {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  text-decoration: none;
+}
+
+.section-header__link:hover {
+  text-decoration: underline;
 }
 
 .issue-list {
@@ -331,6 +336,15 @@ p {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.issue-item__title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.issue-item__title-link:hover {
+  text-decoration: underline;
 }
 
 .issue-item__desc {
@@ -1619,6 +1633,16 @@ p {
   font-size: 24px;
 }
 
+.red-flags-repeat-name-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.red-flags-repeat-name-link:hover {
+  color: #0057cd;
+  text-decoration: underline;
+}
+
 .red-flags-repeat-head span {
   padding: 2px 8px;
   border-radius: 2px;
@@ -2538,5 +2562,602 @@ p {
 
   .contractors-dossier-head h2 {
     font-size: 28px;
+  }
+}
+
+.money-main {
+  padding-top: 32px;
+  padding-bottom: 48px;
+}
+
+.money-hero {
+  margin-bottom: 28px;
+}
+
+.money-hero__kicker {
+  color: var(--info);
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+
+.money-hero__title {
+  margin: 8px 0 0;
+  color: var(--text-primary);
+  font-size: 56px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.money-summary-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+.money-card {
+  border: 1px solid rgba(194, 198, 216, 0.2);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-card);
+}
+
+.money-card--summary {
+  background: var(--bg-soft);
+  padding: 40px;
+}
+
+.money-card__kicker {
+  margin: 0;
+  color: #424655;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.money-card__total {
+  margin: 20px 0 0;
+  color: #171c1f;
+  font-size: 60px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-weight: 900;
+}
+
+.money-stat-grid {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.money-stat-box {
+  border-left: 4px solid;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-card);
+  padding: 18px 18px 16px;
+}
+
+.money-stat-box__label {
+  margin: 0;
+  color: #424655;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.money-stat-box__value {
+  margin: 6px 0 0;
+  color: #171c1f;
+  font-size: clamp(24px, 1.8vw, 30px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.money-stat-box__meta {
+  margin: 3px 0 0;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.money-progress-wrap {
+  margin-top: 26px;
+}
+
+.money-progress-track {
+  height: 16px;
+  border-radius: 999px;
+  overflow: hidden;
+  display: flex;
+  background: #dfe3e7;
+}
+
+.money-progress-segment {
+  height: 100%;
+}
+
+.money-progress-meta {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  color: #424655;
+}
+
+.money-progress-meta span:last-child {
+  color: #ba1a1a;
+}
+
+.money-card--risk {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.money-risk-donut {
+  width: 208px;
+  height: 208px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  box-shadow: var(--shadow-card);
+}
+
+.money-risk-donut__inner {
+  width: 144px;
+  height: 144px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.money-risk-donut__value {
+  margin: 0;
+  color: #171c1f;
+  font-size: 48px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-weight: 900;
+}
+
+.money-risk-donut__label {
+  margin: 4px 0 0;
+  color: #ba1a1a;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+}
+
+.money-risk-legend {
+  margin-top: 32px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.money-risk-legend__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.money-risk-legend__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #171c1f;
+}
+
+.money-risk-legend__swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.money-annual-section {
+  margin-top: 24px;
+}
+
+.money-card--annual {
+  padding: 40px;
+}
+
+.money-annual-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.money-annual-head p {
+  margin-top: 4px;
+  color: #424655;
+}
+
+.money-annual-legend {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.money-annual-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #171c1f;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.money-annual-legend i {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.money-annual-legend .is-delivered {
+  background: var(--success);
+}
+
+.money-annual-legend .is-ongoing {
+  background: #f59e0b;
+}
+
+.money-annual-legend .is-gap {
+  border: 1px solid rgba(186, 26, 26, 0.2);
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(186, 26, 26, 0.06),
+      rgba(186, 26, 26, 0.06) 3px,
+      transparent 3px,
+      transparent 6px
+    ),
+    #fdf2f2;
+}
+
+.money-annual-chart {
+  margin-top: 22px;
+  border-bottom: 1px solid rgba(194, 198, 216, 0.3);
+  min-height: 360px;
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 10px;
+  align-items: end;
+  padding: 12px 8px 14px;
+}
+
+.money-annual-bar-col {
+  text-align: center;
+}
+
+.money-annual-bar__amount {
+  margin: 0 0 6px;
+  font-size: 10px;
+  line-height: 1.1;
+  color: #424655;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.money-annual-bar {
+  height: 280px;
+  width: 100%;
+  max-width: 40px;
+  margin: 0 auto;
+  position: relative;
+  border-radius: 2px 2px 0 0;
+  overflow: hidden;
+}
+
+.money-annual-bar__gap,
+.money-annual-bar__delivered,
+.money-annual-bar__ongoing {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.money-annual-bar__gap {
+  border: 1px solid rgba(186, 26, 26, 0.16);
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(186, 26, 26, 0.05),
+      rgba(186, 26, 26, 0.05) 4px,
+      transparent 4px,
+      transparent 8px
+    ),
+    #fdf2f2;
+}
+
+.money-annual-bar__delivered {
+  background: var(--success);
+}
+
+.money-annual-bar__ongoing {
+  background: #f59e0b;
+}
+
+.money-annual-bar__alert {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ba1a1a;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.money-annual-bar__year {
+  margin: 8px 0 0;
+  color: #424655;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.money-annual-bar__year.is-anomaly {
+  color: #ba1a1a;
+  font-weight: 900;
+}
+
+.money-anomaly-alert {
+  margin-top: 22px;
+  background: rgba(255, 218, 214, 0.12);
+  border-left: 4px solid #ba1a1a;
+  border-radius: 0 8px 8px 0;
+  padding: 14px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.money-anomaly-alert__icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(186, 26, 26, 0.4);
+  color: #93000a;
+  display: inline-grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.money-anomaly-alert p {
+  margin: 0;
+  color: #93000a;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.money-anomaly-alert strong {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.money-funding-section {
+  margin-top: 28px;
+}
+
+.money-funding-section__head p {
+  margin-top: 4px;
+  color: #424655;
+}
+
+.money-source-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.money-source-card {
+  border: 1px solid rgba(194, 198, 216, 0.2);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-card);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.money-source-card__title {
+  margin: 0;
+  color: #424655;
+  font-size: 11px;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  min-height: 32px;
+}
+
+.money-source-card__amount {
+  margin: 0;
+  color: #171c1f;
+  font-size: 42px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-weight: 900;
+}
+
+.money-source-card__contracts {
+  margin: 6px 0 0;
+  color: #424655;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.money-source-card__counts {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.money-source-card__counts .is-success {
+  color: var(--success);
+}
+
+.money-source-card__counts .is-danger {
+  color: var(--danger);
+}
+
+.money-source-card__counts .is-muted {
+  color: #8d93a5;
+}
+
+.money-source-card__rate {
+  padding-top: 12px;
+}
+
+.money-source-card__rate-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #424655;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.money-source-card__rate-head .is-success {
+  color: var(--success);
+}
+
+.money-source-card__rate-head .is-warning {
+  color: #f59e0b;
+}
+
+.money-source-card__rate-head .is-danger {
+  color: var(--danger);
+}
+
+.money-source-card__rate-track {
+  margin-top: 6px;
+  height: 8px;
+  border-radius: 999px;
+  background: #e5e9ed;
+  overflow: hidden;
+}
+
+.money-source-card__rate-fill {
+  display: block;
+  height: 100%;
+}
+
+.money-source-card__rate-fill.is-success {
+  background: var(--success);
+}
+
+.money-source-card__rate-fill.is-warning {
+  background: #f59e0b;
+}
+
+.money-source-card__rate-fill.is-danger {
+  background: var(--danger);
+}
+
+@media (max-width: 1200px) {
+  .money-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .money-source-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .money-annual-head {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .money-main {
+    padding-top: 20px;
+  }
+
+  .money-hero__title {
+    font-size: 42px;
+  }
+
+  .money-card--summary,
+  .money-card--annual,
+  .money-card--risk,
+  .money-source-card {
+    padding: 20px;
+  }
+
+  .money-card__total {
+    font-size: 42px;
+  }
+
+  .money-stat-grid,
+  .money-source-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .money-risk-donut {
+    width: 172px;
+    height: 172px;
+  }
+
+  .money-risk-donut__inner {
+    width: 116px;
+    height: 116px;
+  }
+
+  .money-risk-donut__value {
+    font-size: 36px;
+  }
+
+  .money-annual-chart {
+    overflow-x: auto;
+    display: flex;
+    gap: 16px;
+    padding-bottom: 12px;
+  }
+
+  .money-annual-bar-col {
+    min-width: 44px;
+  }
+
+  .money-annual-bar__amount {
+    font-size: 9px;
   }
 }

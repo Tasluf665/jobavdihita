@@ -1,4 +1,4 @@
-function SectionHeader({ icon, title, actionLabel }) {
+function SectionHeader({ icon, title, actionLabel, actionHref }) {
     return (
         <div className="section-header">
             <div className="section-header__title">
@@ -7,7 +7,13 @@ function SectionHeader({ icon, title, actionLabel }) {
                     {title}
                 </h3>
             </div>
-            <span className="section-header__link">{actionLabel}</span>
+            {actionHref ? (
+                <a className="section-header__link" href={actionHref}>
+                    {actionLabel}
+                </a>
+            ) : (
+                <span className="section-header__link">{actionLabel}</span>
+            )}
         </div>
     );
 }

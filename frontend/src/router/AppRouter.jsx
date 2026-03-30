@@ -3,6 +3,7 @@ import AllProjectsPage from '../pages/AllProjects';
 import ProjectDetailPage from '../pages/ProjectDetail';
 import RedFlagsPage from '../pages/RedFlags';
 import ContractorsPage from '../pages/Contractors';
+import MoneyTrackerPage from '../pages/MoneyTracker';
 
 function AppRouter() {
     const path = window.location.pathname;
@@ -24,6 +25,8 @@ function AppRouter() {
             return <RedFlagsPage />;
         case '/projects':
             return <AllProjectsPage />;
+        case '/money':
+            return <MoneyTrackerPage />;
         case '/':
         default:
             return <HomePage />;

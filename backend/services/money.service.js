@@ -3,6 +3,18 @@ const { parsePagination, buildPaginationMeta } = require('../utils/pagination');
 
 const districtMatch = (district) => (district ? { district } : {});
 
+const NORMALIZED_STATUS = { $toLower: { $ifNull: ['$computed_status', ''] } };
+const IS_DELIVERED_STATUS = { $in: [NORMALIZED_STATUS, ['complete', 'completed']] };
+const IS_ONGOING_STATUS = { $eq: [NORMALIZED_STATUS, 'ongoing'] };
+const IS_NOT_STARTED_STATUS = { $eq: [NORMALIZED_STATUS, 'not_started'] };
+const IS_UNVERIFIED_STATUS = {
+    $and: [
+        { $not: [IS_DELIVERED_STATUS] },
+        { $not: [IS_ONGOING_STATUS] },
+        { $not: [IS_NOT_STARTED_STATUS] },
+    ],
+};
+
 const getMoneySummary = async (district) => {
     const [data] = await Contract.aggregate([
         { $match: districtMatch(district) },
@@ -12,17 +24,22 @@ const getMoneySummary = async (district) => {
                 total_allocated: { $sum: '$contract_value' },
                 total_delivered: {
                     $sum: {
-                        $cond: [{ $eq: ['$computed_status', 'completed'] }, '$contract_value', 0],
+                        $cond: [IS_DELIVERED_STATUS, '$contract_value', 0],
                     },
                 },
                 total_ongoing: {
                     $sum: {
-                        $cond: [{ $eq: ['$computed_status', 'ongoing'] }, '$contract_value', 0],
+                        $cond: [IS_ONGOING_STATUS, '$contract_value', 0],
+                    },
+                },
+                total_not_started: {
+                    $sum: {
+                        $cond: [IS_NOT_STARTED_STATUS, '$contract_value', 0],
                     },
                 },
                 total_unverified: {
                     $sum: {
-                        $cond: [{ $gt: ['$work_status.payment_gap_pct', 20] }, '$contract_value', 0],
+                        $cond: [IS_UNVERIFIED_STATUS, '$contract_value', 0],
                     },
                 },
             },
@@ -33,6 +50,7 @@ const getMoneySummary = async (district) => {
         total_allocated: 0,
         total_delivered: 0,
         total_ongoing: 0,
+        total_not_started: 0,
         total_unverified: 0,
     };
 
@@ -41,6 +59,7 @@ const getMoneySummary = async (district) => {
         ...result,
         delivered_pct: (result.total_delivered / denominator) * 100,
         ongoing_pct: (result.total_ongoing / denominator) * 100,
+        not_started_pct: (result.total_not_started / denominator) * 100,
         unverified_pct: (result.total_unverified / denominator) * 100,
     };
 };
@@ -54,14 +73,14 @@ const getByFundingSource = async (district) =>
                 total_contracts: { $sum: 1 },
                 total_allocated: { $sum: '$contract_value' },
                 completed_count: {
-                    $sum: { $cond: [{ $eq: ['$computed_status', 'completed'] }, 1, 0] },
+                    $sum: { $cond: [IS_DELIVERED_STATUS, 1, 0] },
                 },
                 overdue_count: {
-                    $sum: { $cond: [{ $eq: ['$computed_status', 'overdue'] }, 1, 0] },
+                    $sum: { $cond: [IS_UNVERIFIED_STATUS, 1, 0] },
                 },
                 total_unverified_payments: {
                     $sum: {
-                        $cond: [{ $gt: ['$work_status.payment_gap_pct', 20] }, '$contract_value', 0],
+                        $cond: [IS_UNVERIFIED_STATUS, '$contract_value', 0],
                     },
                 },
             },
@@ -104,22 +123,66 @@ const getYearlySpending = async (district, fromYear, toYear) => {
                 total_allocated: { $sum: '$contract_value' },
                 delivered_amount: {
                     $sum: {
-                        $cond: [{ $eq: ['$computed_status', 'completed'] }, '$contract_value', 0],
+                        $cond: [IS_DELIVERED_STATUS, '$contract_value', 0],
                     },
                 },
                 ongoing_amount: {
                     $sum: {
-                        $cond: [{ $eq: ['$computed_status', 'ongoing'] }, '$contract_value', 0],
+                        $cond: [IS_ONGOING_STATUS, '$contract_value', 0],
+                    },
+                },
+                not_started_amount: {
+                    $sum: {
+                        $cond: [IS_NOT_STARTED_STATUS, '$contract_value', 0],
                     },
                 },
                 unverified_amount: {
                     $sum: {
-                        $cond: [{ $gt: ['$work_status.payment_gap_pct', 20] }, '$contract_value', 0],
+                        $cond: [IS_UNVERIFIED_STATUS, '$contract_value', 0],
                     },
                 },
             },
         },
-        { $sort: { _id: 1 } },
+        {
+            $project: {
+                _id: 0,
+                year: '$_id',
+                total_allocated: 1,
+                delivered_amount: 1,
+                ongoing_amount: 1,
+                not_started_amount: 1,
+                unverified_amount: 1,
+                delivered_pct: {
+                    $cond: [
+                        { $eq: ['$total_allocated', 0] },
+                        0,
+                        { $multiply: [{ $divide: ['$delivered_amount', '$total_allocated'] }, 100] },
+                    ],
+                },
+                ongoing_pct: {
+                    $cond: [
+                        { $eq: ['$total_allocated', 0] },
+                        0,
+                        { $multiply: [{ $divide: ['$ongoing_amount', '$total_allocated'] }, 100] },
+                    ],
+                },
+                not_started_pct: {
+                    $cond: [
+                        { $eq: ['$total_allocated', 0] },
+                        0,
+                        { $multiply: [{ $divide: ['$not_started_amount', '$total_allocated'] }, 100] },
+                    ],
+                },
+                unverified_pct: {
+                    $cond: [
+                        { $eq: ['$total_allocated', 0] },
+                        0,
+                        { $multiply: [{ $divide: ['$unverified_amount', '$total_allocated'] }, 100] },
+                    ],
+                },
+            },
+        },
+        { $sort: { year: 1 } },
     ]);
 };
 
@@ -172,11 +235,11 @@ const getWorldBankStats = async (district) => {
                 total_wb_allocated: { $sum: '$contract_value' },
                 total_wb_unverified: {
                     $sum: {
-                        $cond: [{ $gt: ['$work_status.payment_gap_pct', 20] }, '$contract_value', 0],
+                        $cond: [IS_UNVERIFIED_STATUS, '$contract_value', 0],
                     },
                 },
                 completed_count: {
-                    $sum: { $cond: [{ $eq: ['$computed_status', 'completed'] }, 1, 0] },
+                    $sum: { $cond: [IS_DELIVERED_STATUS, 1, 0] },
                 },
             },
         },

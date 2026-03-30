@@ -12,7 +12,15 @@ function RepeatWinnerCards({ items = [] }) {
 
                         <div className="red-flags-repeat-body">
                             <div className="red-flags-repeat-head">
-                                <h3>{item.name}</h3>
+                                <h3>
+                                    {item.contractorId ? (
+                                        <a className="red-flags-repeat-name-link" href={`/contractors/${item.contractorId}`}>
+                                            {item.name}
+                                        </a>
+                                    ) : (
+                                        item.name
+                                    )}
+                                </h3>
                                 <span>{item.risk}</span>
                             </div>
 
