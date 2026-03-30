@@ -10,6 +10,7 @@ const historyRoutes = require('./history.routes');
 const districtsRoutes = require('./districts.routes');
 const searchRoutes = require('./search.routes');
 const adminRoutes = require('./admin.routes');
+const docsRoutes = require('./docs.routes');
 
 const router = express.Router();
 
@@ -38,6 +39,7 @@ router.use('/field-reports', fieldReportsRoutes);
 router.use('/history', historyRoutes);
 router.use('/districts', districtsRoutes);
 router.use('/search', searchRoutes);
+router.use('/docs', docsRoutes);
 router.use('/admin', adminRoutes);
 
 module.exports = router;
