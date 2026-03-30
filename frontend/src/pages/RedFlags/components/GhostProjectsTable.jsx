@@ -51,7 +51,14 @@ function GhostProjectsTable({ rows = [], pagination, onPageChange }) {
                                                 {row.projectName}
                                             </a>
                                         </td>
-                                        <td>{row.contractor}</td>
+                                        <td>
+                                            <a
+                                                className="red-flags-project-link"
+                                                href={row.contractorId ? `/contractors/${row.contractorId}` : '/contractors'}
+                                            >
+                                                {row.contractor}
+                                            </a>
+                                        </td>
                                         <td className="red-flags-money">{row.money}</td>
                                         <td className="red-flags-overdue">{row.overdueYears}</td>
                                         <td>

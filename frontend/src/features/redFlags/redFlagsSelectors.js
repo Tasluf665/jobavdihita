@@ -64,10 +64,16 @@ const selectGhostRows = createSelector(selectRedFlagsState, (redFlags) => {
         const physical = Number(item.work_status?.physical_progress_pct || 0);
         const financial = Number(item.work_status?.financial_progress_pct || 0);
         const years = (Number(item.days_overdue || 0) / 365).toFixed(1);
+        const contractorId =
+            typeof item.contractor_id === 'string'
+                ? item.contractor_id
+                : item.contractor_id?._id || item.contractor_id?.$oid || null;
+
         return {
             tenderId: `#${item.tender_id}`,
             projectName: item.description || 'Untitled project',
             contractor: item.contractor_name || item.procuring_entity || 'Unknown',
+            contractorId,
             money: formatBdt(item.contract_value),
             overdueYears: `${years} Years`,
             financial,
