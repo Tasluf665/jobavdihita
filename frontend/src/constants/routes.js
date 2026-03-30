@@ -4,6 +4,7 @@ const ROUTES = {
     RED_FLAGS: '/red-flags',
     MONEY: '/money',
     OFFICIALS: '/officials',
+    CONTACT: '/contact',
     DISCLAIMER: '/disclaimer',
     PRIVACY_POLICY: '/privacy-policy',
     REPORT: '/report',

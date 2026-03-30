@@ -5,7 +5,7 @@ const FOOTER_LINKS = [
     { label: 'Data Sources', href: 'https://www.eprocure.gov.bd/' },
     { label: 'Disclaimer', href: ROUTES.DISCLAIMER },
     { label: 'Privacy Policy', href: ROUTES.PRIVACY_POLICY },
-    { label: 'Contact' },
+    { label: 'Contact', href: ROUTES.CONTACT },
 ];
 
 function Footer() {

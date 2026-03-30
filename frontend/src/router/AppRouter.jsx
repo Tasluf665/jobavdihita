@@ -7,6 +7,7 @@ import MoneyTrackerPage from '../pages/MoneyTracker';
 import OfficialsPage from '../pages/Officials';
 import DisclaimerPage from '../pages/Disclaimer';
 import PrivacyPolicyPage from '../pages/LegalPolicy';
+import ContactPage from '../pages/Contact';
 
 function AppRouter() {
     const path = window.location.pathname;
@@ -41,6 +42,8 @@ function AppRouter() {
             return <DisclaimerPage />;
         case '/privacy-policy':
             return <PrivacyPolicyPage />;
+        case '/contact':
+            return <ContactPage />;
         case '/':
         default:
             return <HomePage />;
