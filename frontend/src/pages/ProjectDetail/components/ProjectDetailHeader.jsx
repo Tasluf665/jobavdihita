@@ -23,9 +23,6 @@ function ProjectDetailHeader({ breadcrumbs = [], hero }) {
 
                 <div className="project-detail-actions">
                     <p className="project-detail-hash">System Hash: {hero.hash}</p>
-                    <button type="button" className="btn btn--sm btn--primary">
-                        Export Evidence (PDF)
-                    </button>
                 </div>
             </div>
         </section>

@@ -14,7 +14,7 @@ function Navbar({ activeRoute }) {
     return (
         <header className="app-navbar">
             <PageWrapper className="app-navbar__inner">
-                <div className="brand">Munshiganj Shotter Khoj</div>
+                <div className="brand">Jovabdihita</div>
 
                 <nav className="nav-links" aria-label="Main navigation">
                     {NAV_ITEMS.map((item) => (
