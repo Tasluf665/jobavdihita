@@ -4,11 +4,15 @@ function ProjectTableRow({ row }) {
     return (
         <tr className="projects-table-row">
             <td>{row.id}</td>
-            <td className="projects-tender-id">{row.tenderId}</td>
+            <td className="projects-tender-id">
+                <a href={`/projects/${row.tenderId}`} className="projects-row-link">
+                    {row.tenderId}
+                </a>
+            </td>
             <td>
-                <div className="projects-name-cell" title={row.projectName}>
+                <a href={`/projects/${row.tenderId}`} className="projects-name-cell projects-row-link" title={row.projectName}>
                     {row.projectName}
-                </div>
+                </a>
             </td>
             <td className={row.danger ? 'projects-text-danger' : ''}>{row.contractor}</td>
             <td className="projects-value-cell">{row.value}</td>
