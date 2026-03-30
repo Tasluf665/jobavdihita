@@ -40,15 +40,6 @@ function AllProjects() {
                                 Municipality. Cross-referencing LGD records with ground-truth evidence.
                             </p>
                         </div>
-
-                        <div className="projects-header-actions">
-                            <button className="projects-export-btn" type="button">
-                                ⇩ Export CSV
-                            </button>
-                            <button className="projects-export-btn" type="button">
-                                📄 Export PDF
-                            </button>
-                        </div>
                     </section>
 
                     {error ? <ErrorMessage message={error} onRetry={reload} /> : null}

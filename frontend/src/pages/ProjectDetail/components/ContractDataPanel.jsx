@@ -25,7 +25,12 @@ function ContractDataPanel({ data }) {
 
             <div className="project-detail-data-grid">
                 <div className="project-detail-data-column">
-                    <DataBlock label="Contractor Entity" value={data.contractor} hint={data.contractorRisk} />
+                    <DataBlock
+                        label="Contractor Entity"
+                        value={data.contractor}
+                        valueHref={data.contractorId ? `/contractors/${encodeURIComponent(data.contractorId)}` : null}
+                        hint={data.contractorRisk}
+                    />
                     <DataBlock label="Procuring Entity" value={data.procuringEntity} />
                     <DataBlock label="Funding Source" value={data.fundingSource} />
                     <DataBlock label="Signing Date" value={data.signingDate} />

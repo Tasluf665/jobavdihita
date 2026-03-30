@@ -1,5 +1,3 @@
-import Button from '../../../components/ui/Button';
-
 const LEGEND = [
     { label: 'Total Allocated', color: 'rgba(13, 110, 253, 0.3)' },
     { label: 'Delivered Amount', color: 'var(--success)' },
@@ -20,11 +18,6 @@ function AnnualBudgetChart({ bars = [] }) {
                         Annual Budget Audit (2017-2026)
                     </h3>
                     <p className="body-sm">Historical comparison of allocated funds vs. verified project delivery.</p>
-                </div>
-
-                <div className="audit-actions">
-                    <Button variant="secondary">Download Archive</Button>
-                    <Button variant="primary">Audit Details</Button>
                 </div>
             </div>
 

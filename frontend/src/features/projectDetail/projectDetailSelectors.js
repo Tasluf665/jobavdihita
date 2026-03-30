@@ -33,6 +33,18 @@ const getOfficialId = (official) => {
     return official._id || official.id || official.official_id || official.employee_id || null;
 };
 
+const getContractorId = (contractor) => {
+    if (!contractor) {
+        return null;
+    }
+
+    if (typeof contractor === 'string' || typeof contractor === 'number') {
+        return String(contractor);
+    }
+
+    return contractor._id || contractor.id || contractor.contractor_id || contractor.tenderer_id || null;
+};
+
 const toStatusLabel = (status) => {
     switch (status) {
         case 'ghost':
@@ -117,6 +129,7 @@ const selectProjectDetailViewModel = createSelector(selectProjectDetailState, (d
         ],
         contractData: {
             contractor: contract.contractor_id?.company_name || contract.procuring_entity || 'Unknown Contractor',
+            contractorId: getContractorId(contract.contractor_id),
             contractorRisk: 'Repeat offender: multiple delayed contracts detected',
             approvingEngineer: contract.official_id?.full_name || 'Not assigned',
             approvingEngineerId: getOfficialId(contract.official_id),
