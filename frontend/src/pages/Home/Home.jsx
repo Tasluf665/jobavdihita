@@ -1,4 +1,3 @@
-import AlertBanner from '../../components/ui/AlertBanner';
 import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
 import PageWrapper from '../../components/layout/PageWrapper';
@@ -15,9 +14,6 @@ function Home() {
     const { district, alerts, isLoading, error, heroStats, budget, redFlags, recentCompletions, yearlyAudit, reload } =
         useDashboard('Munshiganj');
 
-    console.log('Homepage data:', { district, alerts, isLoading, error, heroStats, budget, redFlags, recentCompletions, yearlyAudit });
-
-
     return (
         <>
             <Navbar />
@@ -30,6 +26,7 @@ function Home() {
                         </h1>
                         <p className="hero-subtitle body-lg">
                             Real-time transparency monitoring for public infrastructure and budget allocation in the
+                            {' '}
                             {district} district.
                         </p>
                     </section>

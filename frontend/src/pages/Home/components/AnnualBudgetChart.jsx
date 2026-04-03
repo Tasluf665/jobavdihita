@@ -5,6 +5,21 @@ const LEGEND = [
     { label: 'Delivery Gap', color: '#fdf2f2', gap: true },
 ];
 
+const getBarTooltip = (bar) => {
+    const year = bar.year ?? 'Unknown';
+    const delivered = Number(bar.delivered || 0);
+    const ongoing = Number(bar.ongoing || 0);
+    const pending = Math.max(0, 100 - delivered - ongoing);
+
+    return [
+        `Year: ${year}`,
+        `Allocated: ${bar.value || 'N/A'}`,
+        `Delivered: ${delivered}%`,
+        `Ongoing: ${ongoing}%`,
+        `Pending/Gap: ${pending}%`,
+    ].join(' • ');
+};
+
 function AnnualBudgetChart({ bars = [] }) {
     if (!bars.length) {
         return null;
@@ -41,11 +56,14 @@ function AnnualBudgetChart({ bars = [] }) {
                 </div>
 
                 <div className="chart-bars">
-                    {bars.map((bar) => (
-                        <div className="chart-bar-wrap" key={bar.year}>
+                    {bars.map((bar, index) => (
+                        <div className="chart-bar-wrap" key={bar.year ?? index} title={getBarTooltip(bar)}>
                             <div className="chart-bar-value">{bar.value}</div>
                             <div
                                 className="chart-bar"
+                                role="img"
+                                aria-label={getBarTooltip(bar)}
+                                tabIndex={0}
                                 style={{
                                     background: bar.gap
                                         ? 'none'
@@ -62,7 +80,7 @@ function AnnualBudgetChart({ bars = [] }) {
                                     <div className="chart-bar__ongoing" style={{ height: `${bar.ongoing}%` }} />
                                 ) : null}
                             </div>
-                            <div className="chart-bar-year">{bar.year}</div>
+                            <div className="chart-bar-year">{bar.year ?? '—'}</div>
                         </div>
                     ))}
                 </div>

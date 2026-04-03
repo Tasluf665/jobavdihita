@@ -168,6 +168,7 @@ p {
   background: var(--bg-surface);
   box-shadow: var(--shadow-card);
   padding: 28px 30px;
+  min-width: 0;
 }
 
 .stat-card__top {
@@ -202,6 +203,7 @@ p {
   background: var(--bg-soft);
   border-radius: var(--radius-md);
   padding: 34px 40px;
+  overflow: hidden;
 }
 
 .budget-header {
@@ -403,6 +405,7 @@ p {
   background: rgba(240, 244, 248, 0.3);
   border-radius: var(--radius-sm);
   padding: 22px 16px 16px;
+  overflow-x: auto;
 }
 
 .chart-legend {
@@ -424,6 +427,7 @@ p {
 
 .chart-bar-wrap {
   text-align: center;
+  min-width: 0;
 }
 
 .chart-bar-value {
@@ -444,6 +448,7 @@ p {
   justify-content: flex-end;
   overflow: hidden;
   background: rgba(13, 110, 253, 0.28);
+  cursor: help;
 }
 
 .chart-bar__delivered {
@@ -471,7 +476,8 @@ p {
   margin-top: 10px;
   font-size: 14px;
   font-weight: 800;
-  color: var(--text-secondary);
+  color: var(--text-primary);
+  white-space: nowrap;
 }
 
 .app-footer {
@@ -816,6 +822,37 @@ p {
     grid-template-columns: 1fr;
   }
 
+  .home-main {
+    padding-top: 28px;
+    padding-bottom: 40px;
+  }
+
+  .hero-stats-grid {
+    gap: 16px;
+  }
+
+  .stat-card {
+    padding: 22px 20px;
+  }
+
+  .stat-card__top {
+    margin-bottom: 24px;
+  }
+
+  .stat-card__value {
+    font-size: 40px;
+  }
+
+  .budget-section,
+  .audit-section {
+    padding: 24px;
+  }
+
+  .two-column-section {
+    gap: 20px;
+    margin-top: 28px;
+  }
+
   .app-navbar__inner {
     flex-wrap: wrap;
     gap: 10px;
@@ -828,6 +865,10 @@ p {
   .app-footer__inner {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .budget-total {
+    text-align: left;
   }
 
   .disclaimer-grid {
@@ -849,9 +890,111 @@ p {
   }
 
   .chart-bars {
-    overflow-x: auto;
+    width: max-content;
     display: flex;
     gap: 18px;
+    min-height: 300px;
+    padding: 20px 8px 16px;
+  }
+
+  .chart-bar-wrap {
+    flex: 0 0 72px;
+    min-width: 72px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-wrapper {
+    padding: 0 16px;
+  }
+
+  .h1-display {
+    font-size: 34px;
+    line-height: 1.08;
+  }
+
+  .hero-subtitle {
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .budget-total__value {
+    font-size: 34px;
+  }
+
+  .allocation-bar {
+    height: 44px;
+  }
+
+  .allocation-segment {
+    text-align: center;
+    justify-content: center;
+    line-height: 1.15;
+    padding: 0 6px;
+  }
+
+  .issue-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .issue-item__title {
+    font-size: 18px;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  .chart-bar {
+    height: 200px;
+  }
+
+  .chart-bar-value {
+    font-size: 9px;
+    line-height: 1.35;
+  }
+
+  .app-footer {
+    padding-top: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-main {
+    padding-top: 22px;
+    padding-bottom: 32px;
+  }
+
+  .h1-display {
+    font-size: 30px;
+  }
+
+  .budget-section,
+  .audit-section {
+    padding: 18px 14px;
+  }
+
+  .allocation-segment {
+    font-size: 9px;
+  }
+
+  .chart-bars {
+    gap: 12px;
+  }
+
+  .chart-bar-wrap {
+    flex-basis: 64px;
+    min-width: 64px;
+  }
+
+  .chart-bar {
+    max-width: 50px;
+    height: 180px;
+  }
+
+  .chart-bar-year {
+    font-size: 12px;
   }
 }
 

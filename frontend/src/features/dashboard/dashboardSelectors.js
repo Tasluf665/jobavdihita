@@ -18,6 +18,12 @@ const formatCompactBdt = (value = 0) => {
     return `৳ ${Math.round(value).toLocaleString('en-US')}`;
 };
 
+const getYearValue = (row = {}) => {
+    const raw = row.year ?? row._id;
+    const parsed = Number(raw);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
+};
+
 const selectHeroStats = createSelector(selectDashboardState, (dashboard) => {
     const stats = dashboard.stats;
     const overdueCount = Number(stats?.overdue_count || 0);
@@ -145,9 +151,10 @@ const selectYearlyAudit = createSelector(selectDashboardState, (dashboard) =>
         const deliveredPct = Math.round(((row.delivered_amount || 0) / total) * 100);
         const ongoingPct = Math.round(((row.ongoing_amount || 0) / total) * 100);
         const gapPct = Math.round(((row.unverified_amount || 0) / total) * 100);
+        const year = getYearValue(row);
 
         return {
-            year: row._id,
+            year,
             value: formatCompactBdt(row.total_allocated),
             allocated: 10 + Math.min(90, Math.round(Math.log10(total + 1) * 18)),
             delivered: deliveredPct,
@@ -155,6 +162,7 @@ const selectYearlyAudit = createSelector(selectDashboardState, (dashboard) =>
             gap: gapPct > 0,
         };
     })
+        .sort((a, b) => (a.year || 0) - (b.year || 0))
 );
 
 const selectDashboardViewModel = createSelector(
