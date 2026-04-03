@@ -904,6 +904,10 @@ p {
 }
 
 @media (max-width: 768px) {
+  .app-navbar {
+    padding-top: max(8px, env(safe-area-inset-top));
+  }
+
   .page-wrapper {
     padding: 0 16px;
   }
@@ -957,6 +961,7 @@ p {
 
   .app-footer {
     padding-top: 10px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
   }
 }
 

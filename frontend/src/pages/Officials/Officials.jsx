@@ -15,8 +15,6 @@ import './officials.css';
 function Officials({ officialId }) {
     const data = useOfficial(officialId);
 
-    console.log('Official Data:', data); // Debug log to inspect the data structure
-
     return (
         <>
             <Navbar activeRoute="/officials" />
