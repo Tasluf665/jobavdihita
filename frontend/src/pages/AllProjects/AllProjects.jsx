@@ -37,7 +37,7 @@ function AllProjects() {
                             <h1 className="projects-title">ALL PROJECTS</h1>
                             <p className="projects-subtitle">
                                 Comprehensive forensic database of all civic infrastructure projects within Munshiganj
-                                Municipality. Cross-referencing LGD records with ground-truth evidence.
+                                District. Cross-referencing LGD records with ground-truth evidence.
                             </p>
                         </div>
                     </section>
