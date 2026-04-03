@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: jobavdihita-backend
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      MONGODB_URL: ${MONGODB_URL}
+      ADMIN_KEY: ${ADMIN_KEY:-default-admin-key}
+      AUTO_HARVEST_ON_START: "true"
+      AUTO_HARVEST_STATE_NAME: Munshiganj
+      AUTO_HARVEST_CRON: "0 5 * * *"
+      AUTO_HARVEST_TIMEZONE: Asia/Dhaka
+      AUTO_STATUS_ON_START: "true"
+      AUTO_STATUS_DISTRICT: Munshiganj
+      AUTO_STATUS_CRON: "0 0 * * 1"
+      AUTO_STATUS_TIMEZONE: Asia/Dhaka
+    networks:
+      - jobavdihita-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_BACKEND_URL: http://localhost:3001
+        VITE_API_BASE_URL: /api
+    container_name: jobavdihita-frontend
+    ports:
+      - "5174:5174"
+    environment:
+      PORT: 5174
+    depends_on:
+      - backend
+    networks:
+      - jobavdihita-network
+
+networks:
+  jobavdihita-network:
+    driver: bridge

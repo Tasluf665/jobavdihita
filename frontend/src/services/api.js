@@ -1,4 +1,15 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+const getApiBaseUrl = () => {
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    if (backendUrl) {
+        // When provided (e.g. Docker/static deploy), call backend directly
+        return `${backendUrl.replace(/\/$/, '')}/api`;
+    }
+
+    // Development fallback: use Vite proxy via relative /api path
+    return import.meta.env.VITE_API_BASE_URL || '/api';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 const buildQueryString = (query = {}) => {
     const params = new URLSearchParams();
