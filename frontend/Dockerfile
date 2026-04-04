@@ -6,6 +6,7 @@ WORKDIR /app
 # Build arguments
 ARG VITE_BACKEND_URL=http://backend:3001
 ARG VITE_API_BASE_URL=/api
+ARG VITE_GA_ID=
 
 # Copy package files
 COPY package.json package-lock.json ./
@@ -18,7 +19,8 @@ COPY . .
 
 # Create .env file with build variables
 RUN echo "VITE_BACKEND_URL=${VITE_BACKEND_URL}" > .env && \
-    echo "VITE_API_BASE_URL=${VITE_API_BASE_URL}" >> .env
+    echo "VITE_API_BASE_URL=${VITE_API_BASE_URL}" >> .env && \
+    echo "VITE_GA_ID=${VITE_GA_ID}" >> .env
 
 # Build the app with environment variables
 RUN npm run build
