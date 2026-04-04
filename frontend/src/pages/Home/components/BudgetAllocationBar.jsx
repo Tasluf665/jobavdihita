@@ -16,7 +16,6 @@ function BudgetAllocationBar({ budget }) {
                     <h3 className="h3-section" style={{ margin: 0 }}>
                         District Budget Allocation
                     </h3>
-                    <p className="budget-subtitle body-sm">Fiscal Year 2023-2024 Expenditure Tracking</p>
                 </div>
 
                 <div className="budget-total">
